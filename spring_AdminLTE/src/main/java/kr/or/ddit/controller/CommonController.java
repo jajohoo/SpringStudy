@@ -5,15 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/member")
-public class MemberController {
+public class CommonController {
 	
-	@RequestMapping(value="/regist",method=RequestMethod.GET)
-	public String registForm() {
-		String url="member/regist";
+	@RequestMapping(value="/common/loginForm",method=RequestMethod.GET)
+	public String loginForm() {
+		String url = "common/loginForm";
 		return url;
 	}
-	
-	
 	
 }
