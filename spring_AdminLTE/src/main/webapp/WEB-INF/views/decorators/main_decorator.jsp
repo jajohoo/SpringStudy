@@ -1,27 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <!DOCTYPE html>
-
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title><decorator:title default="kim's System"/></title>
+  <title><decorator:title default="Kim's System"/></title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="/resources/bootstrap/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/resources/bootstrap/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  
-  <decorator:head></decorator:head>
-  
+
+
+  <decorator:head />
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -30,13 +33,14 @@
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav main-menu-list">
-    	<!-- main menu list -->
-    	<c:forEach var="menu" items="${menuList}">
-    	<li class="nav-item d-none d-sm-inline-block">
-    		<a href="javascript:subMenu('${menu.mcode }');goPage('${menu.murl}','${menu.mcode }');"
-    			onclick="" class="nav-link">${menu.mname}</a>
-    	</li>
-    	</c:forEach>
+     	<!-- main menu list -->
+     <c:forEach var="menu" items="${menuList }">
+     	<li class="nav-item d-none d-sm-inline-block">
+     	   <a href="javascript:subMenu('${menu.mcode }','<%=request.getContextPath() %>');goPage('<%=request.getContextPath() %>${menu.murl}','${menu.mcode }');"
+     	      onclick=""
+      	   class="nav-link">${menu.mname }</a>
+     	 </li>
+     </c:forEach>
     </ul>
 
     <!-- SEARCH FORM -->
@@ -160,35 +164,34 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<%=request.getContextPath()%>/member/getPicture.do?picture=${loginUser.picture}" class="img-circle elevation-2" alt="User Image">
+          <img src="<%=request.getContextPath() %>/member/getPicture.do?picture=${loginUser.picture}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-        <div class="row">
-          <a href="javascript:OpenWindow('<%=request.getContextPath()%>/member/detail.do?id=${loginUser.id}','','800','700');" class="d-block">${loginUser.name}</a>
-          <button onclick="location.href='<%=request.getContextPath()%>/common/logout.do';" class="btn btn-xs btn-primary col-xs-2" type="button">LOGOUT</button>
-        </div>
-          <a href="tel:${loginUser.phone}">tel : ${loginUser.phone }</a><br>
-          <a href="mailto:${loginUser.email }">email : ${loginUser.email }</a>
+           <div class="row">
+              <a href="javascript:OpenWindow('<%=request.getContextPath() %>/member/detail.do?id=${loginUser.id}','','800','700');" class="d-block">${loginUser.name }</a>
+              <button onclick="Location.href='<%=request.getContextPath() %>/common/logout.do';" class="btn btn-xs btn-primary col-xs-3 " type="button" >LOGOUT</button>
+           </div>
+           <a href="tel:${loginUser.phone }">tel : ${loginUser.phone }</a><br/>
+           <a href="mailto:${loginUser.email }">email : ${loginUser.email }</a>		
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column subMenuList" data-widget="treeview" role="menu" data-accordion="false">
-			<!-- sub-menu-list -->
+       		<!--  sub-menu-list -->
+        
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
   </aside>
-
-  <decorator:body/>
   
-  
-  
-  
-  <!-- Control Sidebar -->
+ <decorator:body /> 
+ 
+ 
+ <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
@@ -213,18 +216,24 @@
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<script src="/resources/bootstrap/plugins/jquery/jquery.min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/resources/bootstrap/dist/js/adminlte.min.js"></script>
-
+<script src="<%=request.getContextPath() %>/resources/bootstrap/dist/js/adminlte.min.js"></script>
 <!-- jquery cookie -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 <!-- handlebars -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
-<!-- common -->
-<script src="/resources/js/common.js"></script>
 
-</body>
-</html>
+<!-- common -->
+<script src="<%=request.getContextPath() %>/resources/js/common.js"></script>
+ 
+ </body>
+ </html>
+ 
+ 
+ 
+ 
+  
