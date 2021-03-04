@@ -39,7 +39,7 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int selectMemberListCount(SearchCriteria cri) throws SQLException {
 		int count = 0;
-		count = sqlSession.selectOne("Member_Mapper.selectSearchMemberListCOunt",cri);
+		count = sqlSession.selectOne("Member-Mapper.selectSearchMemberListCount",cri);
 		return count;
 	}
 

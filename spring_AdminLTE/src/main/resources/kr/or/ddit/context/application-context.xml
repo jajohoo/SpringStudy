@@ -4,6 +4,23 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- boardImgPath -->
+	<bean id="imgPath" class="java.lang.String">
+		<constructor-arg value="${summernote.img}"/>
+	</bean>
+	
+	<!-- member.picture -->
+	<bean id="picturePath" class="java.lang.String">
+		<constructor-arg value="${member.picture.upload}"/>
+	</bean>
+	
+	<!-- file upload-->
+	<bean id="fileUploadPath" class="java.lang.String">
+		<constructor-arg value="${attach.upload}"/>
+	</bean>
+
+
+
 	<!-- DAO -->
 	<bean id="memberDAO" 
 		  class="kr.or.ddit.dao.MemberDAOImpl"
@@ -21,5 +38,7 @@
 	<bean id="menuService"
 		  class="kr.or.ddit.service.MenuServiceImpl"
 		  p:menuDAO-ref="menuDAO"/>
+		  
+	
 	
 </beans>

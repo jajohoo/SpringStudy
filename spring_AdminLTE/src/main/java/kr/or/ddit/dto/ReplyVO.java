@@ -7,7 +7,7 @@ public class ReplyVO {
 	private int bno;
 	private String replytext;
 	private String replyer;
-	private Date regdate;
+	private Date regDate;
 	private Date updatedate;
 	
 	public ReplyVO() {}
@@ -17,7 +17,7 @@ public class ReplyVO {
 		this.bno = bno;
 		this.replytext = replytext;
 		this.replyer = replyer;
-		this.regdate = regdate;
+		this.regDate = regdate;
 		this.updatedate = updatedate;
 	}
 	public int getRno() {
@@ -45,10 +45,10 @@ public class ReplyVO {
 		this.replyer = replyer;
 	}
 	public Date getRegdate() {
-		return regdate;
+		return regDate;
 	}
 	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
+		this.regDate = regdate;
 	}
 	public Date getUpdatedate() {
 		return updatedate;
@@ -59,6 +59,6 @@ public class ReplyVO {
 	@Override
 	public String toString() {
 		return "ReplyVO [rno=" + rno + ", bno=" + bno + ", replytext=" + replytext + ", replyer=" + replyer
-				+ ", regdate=" + regdate + ", updatedate=" + updatedate + "]";
+				+ ", regdate=" + regDate + ", updatedate=" + updatedate + "]";
 	}
 }
