@@ -1,12 +1,19 @@
 package kr.or.ddit.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.ddit.command.SearchCriteria;
+import kr.or.ddit.dto.MemberVO;
 import kr.or.ddit.service.MemberService;
 
 @Controller
@@ -111,6 +119,68 @@ public class MemberController {
 		
 		return entity;
 	}
+	// method = RequestMethod.POST 해줘야지 url의 파일의 한글이 안깨지도록 해줌 그리고 server의 encoding 설정
+	@RequestMapping(value="/getPicture", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public ResponseEntity<byte[]> getPicture(String picture) throws Exception{
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		String imgPath = this.picturePath;
+		try {
+			
+			// in = new FileInputStream(imgPath+File.separator+picture);
+			in = new FileInputStream(new File(imgPath, picture));
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}finally {
+			in.close();
+		}
+		return entity;
+		
+		
+	}
 	
+	// 아이디 확인 근데 바로 바디로 표출하니까 ResponseEntity<> 사용함
+	@RequestMapping("/idCheck")
+	@ResponseBody
+	public ResponseEntity<String> idCheck(String id) throws Exception{
+		ResponseEntity<String> entity = null;
+		
+		try {
+			MemberVO member = memberService.getMember(id);
+			if(member != null) {
+				entity = new ResponseEntity<String>("duplicated",HttpStatus.OK);
+				
+			}else {
+				entity = new ResponseEntity<String>("",HttpStatus.OK);
+				
+			}
+			
+		}catch(SQLException e) {
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/regist",method= RequestMethod.POST)
+	public void regist(MemberRegistCommand memberReq, HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException{
+		//phone 과 ㄴ등록 날짜때문에 인풋이 여러개 때문에 memberVO를 제대로 못 가져오기떄문에
+		//memberVO를 직접적으로 가져올 수 없다.
+		MemberVO member = memberReq.toMemberVO();
+		memberService.regist(member);
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>");
+		out.println("alert('회원등록이 정상적으로 되었습니다.');");
+		out.println("window.opener.location.href='" + request.getContextPath() + "/member/list.do");
+		out.println("window.close();");
+		out.println("</script>");
+	}
 	
 }
