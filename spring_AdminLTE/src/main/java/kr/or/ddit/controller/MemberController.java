@@ -12,12 +12,14 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.ddit.command.MemberModifyCommand;
+import kr.or.ddit.command.MemberRegistCommand;
 import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dto.MemberVO;
 import kr.or.ddit.service.MemberService;
@@ -119,8 +123,9 @@ public class MemberController {
 		
 		return entity;
 	}
+	
 	// method = RequestMethod.POST 해줘야지 url의 파일의 한글이 안깨지도록 해줌 그리고 server의 encoding 설정
-	@RequestMapping(value="/getPicture", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	@RequestMapping(value="/getPicture", produces = "text/plain;charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<byte[]> getPicture(String picture) throws Exception{
 		InputStream in = null;
@@ -171,6 +176,7 @@ public class MemberController {
 	public void regist(MemberRegistCommand memberReq, HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException{
 		//phone 과 ㄴ등록 날짜때문에 인풋이 여러개 때문에 memberVO를 제대로 못 가져오기떄문에
 		//memberVO를 직접적으로 가져올 수 없다.
+		//MemberRegistCommand 파라미터를 memberReq로 받아와서 못받는 VO를 서비스로 보내주게 해준다.
 		MemberVO member = memberReq.toMemberVO();
 		memberService.regist(member);
 		
@@ -178,9 +184,67 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		out.println("<script>");
 		out.println("alert('회원등록이 정상적으로 되었습니다.');");
-		out.println("window.opener.location.href='" + request.getContextPath() + "/member/list.do");
+		out.println("window.opener.location.href='" + request.getContextPath() + "/member/list.do';");
 		out.println("window.close();");
 		out.println("</script>");
+		
+		if (out != null)
+			out.close();
 	}
 	
+	//상세페이지
+	@RequestMapping(value="/detail", method= RequestMethod.GET)
+	public String detail(String id, Model model) throws SQLException{
+		String url = "member/detail";
+		
+		MemberVO member = memberService.getMember(id);
+		model.addAttribute("member",member);
+		 
+		return url;
+		
+	}
+	
+	//수정
+	@RequestMapping(value="/modify", method= RequestMethod.GET)
+	public String modify(String id, Model model) throws SQLException{
+		String url = "member/modify";
+		
+		MemberVO member = memberService.getMember(id);
+		model.addAttribute("member",member);
+		
+		return url;
+		
+	}
+	
+	@RequestMapping(value="modify", method= RequestMethod.POST)
+	public void modify(MemberModifyCommand modifyReq, HttpSession session, HttpServletResponse response) throws Exception{
+		MemberVO member = modifyReq.toParseMember();
+		
+		//사진을 수정안할 시 null이 나옴
+		//신규 파일 변경 및 기존 파일 삭제
+		String fileName = savePicture(modifyReq.getOldpicture(), modifyReq.getPicture());
+		member.setPicture(fileName);
+		
+		//파일변경 없을 시 기존 파일명 유지
+		if(modifyReq.getPicture().isEmpty()) {
+			member.setPicture(modifyReq.getOldpicture());
+		}
+		
+		//DB 내용수정
+		memberService.modify(member);
+		
+		//로그인한 사용자의 경우 수정된 정보로 session 업로드
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		if(loginUser != null && member.getId().equals(loginUser.getId())) {
+			session.setAttribute("loginUser", member);
+		}
+		
+		response.setContentType("text/htmlcharset=utf-8");
+		PrintWriter out = response.getWriter();
+		String output = ""+"<script>"+"alert('수정되었습니다.');"+"location.href='detail?id="
+						+ member.getId()+ "';"
+						+ "window.opener.parent.location.reload();"+"</script>";
+		out.println(output);
+		out.close();
+	}
 }

@@ -19,7 +19,6 @@
 			<div class="card">				
 				<div class="register-card-body">
 					<form role="form" class="form-horizontal" action="regist.do" method="post">						
-						<input type="hidden" name="picture" />
 						<div class="input-group mb-3">
 							<div class="mailbox-attachments clearfix" style="text-align: center;">
 								<div class="mailbox-attachment-icon has-img" id="pictureView" style="border: 1px solid green; height: 200px; width: 140px; margin: 0 auto;"></div>

@@ -169,7 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="info">
            <div class="row">
               <a href="javascript:OpenWindow('<%=request.getContextPath() %>/member/detail.do?id=${loginUser.id}','','800','700');" class="d-block">${loginUser.name }</a>
-              <button onclick="Location.href='<%=request.getContextPath() %>/common/logout.do';" class="btn btn-xs btn-primary col-xs-3 " type="button" >LOGOUT</button>
+              <button onclick="location.href='<%=request.getContextPath() %>/common/logout.do';" class="btn btn-xs btn-primary col-xs-3 " type="button" >LOGOUT</button>
            </div>
            <a href="tel:${loginUser.phone }">tel : ${loginUser.phone }</a><br/>
            <a href="mailto:${loginUser.email }">email : ${loginUser.email }</a>		
