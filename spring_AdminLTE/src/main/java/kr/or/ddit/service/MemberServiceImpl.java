@@ -61,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO getMember(String id) throws SQLException {
 		MemberVO member = memberDAO.selectMemberById(id);
+		System.out.println(1/0);
 		return member;
 	}
 

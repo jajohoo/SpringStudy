@@ -90,7 +90,7 @@
 					<button type="button" id="modifyBtn" onclick="modify_go();"
 						class="btn btn-warning col-sm-4 text-center">수정하기</button>
 					<div class="col-sm-4"></div>
-					<button type="button" id="cancelBtn" onclick="history.go(-1);"
+					<button type="button" id="cancelBtn" onclick="CloseWindow();"
 						class="btn btn-default pull-right col-sm-4 text-center">취 소</button>
 				</div>	
 			</div>
