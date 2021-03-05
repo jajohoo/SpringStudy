@@ -49,8 +49,6 @@
 	              </div>  
 		          <div class="card-footer" >
 		          		<div class="row">
-			          		
-			          		
 			          		<div class="col-sm-3 text-center">
 			          			<button type="button" onclick="location.href='modify.do?id=${member.id}';" id="modifyBtn" class="btn btn-warning">수 정</button>
 			          		</div>
@@ -74,7 +72,7 @@
   <!-- /.content-wrapper -->
 
 
-<script src= "<%=request.getContextPath()%>/resources/js/member/member.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/member/member.js"></script>
 <script> 
 // 사진이미지 불러오기
 window.onload=function(){

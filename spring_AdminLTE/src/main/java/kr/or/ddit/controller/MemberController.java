@@ -216,7 +216,7 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping(value="modify", method= RequestMethod.POST)
+	@RequestMapping(value="/modify", method= RequestMethod.POST)
 	public void modify(MemberModifyCommand modifyReq, HttpSession session, HttpServletResponse response) throws Exception{
 		MemberVO member = modifyReq.toParseMember();
 		
@@ -246,5 +246,33 @@ public class MemberController {
 						+ "window.opener.parent.location.reload();"+"</script>";
 		out.println(output);
 		out.close();
+	}
+	
+	@RequestMapping(value="/remove", method= RequestMethod.GET)
+	public String remove(String id, HttpSession session, Model model) throws SQLException{
+		String url = "member/removeSuccess";
+		
+		MemberVO member;
+		
+		//이미지파일을 삭제
+		member = memberService.getMember(id);
+		
+		String svaePath = this.picturePath;
+		File imageFile = new File(svaePath, member.getPicture());
+		if(imageFile.exists()) {
+			imageFile.delete();
+		}
+		
+		memberService.remove(id);
+		
+		//삭제되는 회원이 로그인 회원일 경우 로그아웃 해야함
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		if(loginUser.getId().equals(member.getId())) {
+			session.invalidate();
+		}
+		
+		model.addAttribute("member",member);
+		return url;
+		
 	}
 }

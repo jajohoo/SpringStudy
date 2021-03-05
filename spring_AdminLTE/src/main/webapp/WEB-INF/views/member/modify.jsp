@@ -8,9 +8,7 @@
 <meta charset="UTF-8">
 <title></title>
 <!-- Tell the browser to be responsive to screen width -->
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-	name="viewport">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
 </head>
 <body>
@@ -21,9 +19,9 @@
   <!-- Main content -->
   <section class="content register-page" >
 	<form role="form" class="form-horizontal" action="modify.do" method="post" enctype="multipart/form-data">	
-		<div class="register-box" style="min-width:450px;">	
-			<div class="register-card-body">	
-				<div class="row">					
+		<div class="register-box" style="min-width:450px;">
+			<div class="register-card-body">
+				<div class="row">
 					<input type="hidden" name="oldPicture" value="${member.picture}" />
 					<input type="file" id="inputFile" name="picture" style="display:none" />
 					<div class="input-group col-md-12">
@@ -33,15 +31,14 @@
 								<label for="inputFile" class=" btn btn-warning btn-sm btn-flat input-group-addon">사진변경</label>
 								<input id="inputFileName" class="form-control" type="text" name="tempPicture" disabled value="${member.picture.split('\\$\\$')[1]}">
 								<input id="picture" class="form-control" type="hidden" name="uploadPicture" />
-							</div>						
+							</div>
 						</div>												
 					</div>
 				</div>	
 				<div class="form-group row">
 					<label for="id" class="col-sm-3 control-label text-center">아이디</label>	
 					<div class="col-sm-9">
-						<input readonly name="id" type="text" class="form-control" id="id"
-							placeholder="13글자 영문자,숫자 조합" value="${member.id }">
+						<input readonly name="id" type="text" class="form-control" id="id" placeholder="13글자 영문자,숫자 조합" value="${member.id }">
 					</div>
 				</div>
 				
@@ -65,7 +62,7 @@
 									
 				<div class="form-group row">
 					<label for="authority" class="col-sm-3 control-label text-center" >권 한</label>
-					<div class="col-sm-9">
+					<div class=" col-sm-9">
 						<select name="authority" class="form-control">
 							<option ${member.authority eq 'ROLE_USER' ? 'selected' : '' } value="ROLE_USER">사용자</option>
 							<option ${member.authority eq 'ROLE_MANAGER' ? 'selected' : '' } value="ROLE_MANAGER">운영자</option>
@@ -91,7 +88,7 @@
 				
 				<div class="card-footer row" style="margin-top: 0; border-top: none;">						
 					<button type="button" id="modifyBtn" onclick="modify_go();"
-						class="btn btn-warning col-sm-4 text-center" >수정하기</button>
+						class="btn btn-warning col-sm-4 text-center">수정하기</button>
 					<div class="col-sm-4"></div>
 					<button type="button" id="cancelBtn" onclick="history.go(-1);"
 						class="btn btn-default pull-right col-sm-4 text-center">취 소</button>
@@ -112,7 +109,7 @@ window.onload=function(){
 }
 //회원 수정 submit
 function modify_go(){
-	/* alert("modify btn click"); */
+	 alert("modify btn click"); 
 	var form=$('form[role="form"]');
 	form.submit();
 }
