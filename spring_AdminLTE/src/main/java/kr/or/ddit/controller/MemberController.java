@@ -205,7 +205,7 @@ public class MemberController {
 	}
 	
 	//수정
-	@RequestMapping(value="/modify", method= RequestMethod.GET)
+	@RequestMapping(value="/modifyForm", method= RequestMethod.GET)
 	public String modify(String id, Model model) throws SQLException{
 		String url = "member/modify";
 		
@@ -222,12 +222,12 @@ public class MemberController {
 		
 		//사진을 수정안할 시 null이 나옴
 		//신규 파일 변경 및 기존 파일 삭제
-		String fileName = savePicture(modifyReq.getOldpicture(), modifyReq.getPicture());
+		String fileName = savePicture(modifyReq.getOldPicture(), modifyReq.getPicture());
 		member.setPicture(fileName);
 		
 		//파일변경 없을 시 기존 파일명 유지
 		if(modifyReq.getPicture().isEmpty()) {
-			member.setPicture(modifyReq.getOldpicture());
+			member.setPicture(modifyReq.getOldPicture());
 		}
 		
 		//DB 내용수정
@@ -239,7 +239,7 @@ public class MemberController {
 			session.setAttribute("loginUser", member);
 		}
 		
-		response.setContentType("text/htmlcharset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String output = ""+"<script>"+"alert('수정되었습니다.');"+"location.href='detail?id="
 						+ member.getId()+ "';"

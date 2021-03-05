@@ -6,7 +6,7 @@
 	</decorator>
 	
 	<decorator name="openWindow" page="open_decorator.jsp">
-		<pattern>*.do</pattern>
+		<pattern>/**/*</pattern>
 		<pattern>/home.do</pattern>
 	</decorator>
 	

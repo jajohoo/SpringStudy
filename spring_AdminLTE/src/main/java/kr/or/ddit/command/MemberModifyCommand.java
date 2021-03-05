@@ -19,7 +19,7 @@ public class MemberModifyCommand {
     private String email;//이메일
     private String authority; //
     private MultipartFile picture; //사진파일
-    private String oldpicture; //이전 사진파일명
+    private String oldPicture; //이전 사진파일명
     private String uploadPicture; //변경된 사진 파일명
     
     public MemberVO toParseMember() {
@@ -71,12 +71,6 @@ public class MemberModifyCommand {
 	public void setPicture(MultipartFile picure) {
 		this.picture = picure;
 	}
-	public String getOldpicture() {
-		return oldpicture;
-	}
-	public void setOldpicture(String oldpicture) {
-		this.oldpicture = oldpicture;
-	}
 	public String getUploadPicture() {
 		return uploadPicture;
 	}
@@ -88,6 +82,12 @@ public class MemberModifyCommand {
 	}
 	public void setAuthority(String authority) {
 		this.authority = authority;
+	}
+	public String getOldPicture() {
+		return oldPicture;
+	}
+	public void setOldPicture(String oldPicture) {
+		this.oldPicture = oldPicture;
 	}
 
     
